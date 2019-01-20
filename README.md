@@ -3,6 +3,8 @@
 Python markdown extension for insert a space between Chinese / Japanese /
 Korean and English words, to display beautifully.
 
+`中文Chinese西文English` is converted to `中文 Chinese 西文 English`.
+
 ![build](https://travis-ci.org/EloiseSeverin/markdown_cjk_spacing.svg?branch=master)
 
 ### Installation

@@ -5,6 +5,11 @@
 Markdownドキュメント中の中国語/日本語/韓国語と英単語との間にスペースを挿入
 して、美しく表示する [Python-Markup][] 拡張です。
 
+`中文Chinese西文English` は `中文 Chinese 西文 English`
+に変換されます。
+
+![build](https://travis-ci.org/EloiseSeverin/markdown_cjk_spacing.svg?branch=master)
+
 ### インストール
 
 pipでインストールします。
