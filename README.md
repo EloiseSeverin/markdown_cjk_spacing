@@ -35,7 +35,7 @@ MARKDOWN = {
         'markdown.extensions.codehilite': {'css_class': 'highlight'},
         'markdown.extensions.extra': {},
         'markdown.extensions.meta': {},
-        'markdown_markup_cjk_spacing': {},
+        'markdown_cjk_spacing.cjk_spacing': {},
     },
     'output_format': 'html5',
 }
