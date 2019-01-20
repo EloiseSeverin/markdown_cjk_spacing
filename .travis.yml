@@ -5,3 +5,4 @@ install:
     - pip install markdown
 script:
     - python setup.py test
+
