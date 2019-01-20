@@ -1,0 +1,12 @@
+# .gitignore
+__pycache__/
+**/*.py[cod]
+
+public/
+*.egg-info/
+build/
+dist/
+downloads/
+**/*~
+**/*.orig
+**/*.bak
