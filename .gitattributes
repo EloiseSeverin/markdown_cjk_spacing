@@ -1,0 +1,6 @@
+# -*- coding: utf-8 -*-
+# vi:ts=4 sw=4 sts=4 tw=78 et:
+# -----------------------------------------------------------------------------
+# .gitattributes - Defining attributes per path
+*           text=auto
+*.reg       text working-tree-encoding=UTF-16LE eol=CRLF
