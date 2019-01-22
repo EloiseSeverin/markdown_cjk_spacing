@@ -20,6 +20,9 @@ charset = cp932
 [*.reg]
 charset = utf-16
 
+[*.md]
+trim_trailing_whitespace = false
+
 [*.{xml,html,css}]
 indent_size = 2
 
