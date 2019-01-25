@@ -9,7 +9,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setuptools.setup(
     name='markdown_cjk_spacing',
-    version='0.1.1',
+    version='0.2.0',
     author='Eloise Severin',
     author_email='Eloise.severin @ gmail.com',
     description='Python markdown extension for insert a space between Chinese / Japanese / Korean and English words',

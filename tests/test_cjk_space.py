@@ -12,7 +12,6 @@ TEST_FILES = (
     ('test02.md', 'output02.html'),
     ('test03.md', 'output03.html'),
 )
-
 class CjkSpaceTest(unittest.TestCase):
     def test01_simple(self):
         md_source = '中文Chinese西文English字符Character自动Auto空格Spacing'
@@ -31,8 +30,32 @@ class CjkSpaceTest(unittest.TestCase):
                 with open(os.path.join(os.path.dirname(__file__), outfile),
                           'r', encoding='utf-8') as f:
                     expected = f.read().replace('\n', '')
+
+                # with open(os.path.join(os.path.dirname(__file__),
+                #        outfile + '.debug'), 'w', encoding='utf-8') as f0:
+                #    f0.write(html_string)
+
                 self.assertEqual(html_string, expected)
 
+    def test03_SegmentBreak(self):
+        (infile, outfile) = ('test04.md', 'output04.html')
+
+        with open(os.path.join(os.path.dirname(__file__), infile),
+                  'r', encoding='utf-8') as f:
+            html_string = markdown.markdown(
+                f.read(), extensions=EXTENSIONS,
+                extension_configs={
+                    'markdown_cjk_spacing.cjk_spacing':
+                        {'segment_break': True}}).strip()
+        with open(os.path.join(os.path.dirname(__file__), outfile),
+                  'r', encoding='utf-8') as f:
+            expected = f.read().strip()
+
+        # with open(os.path.join(os.path.dirname(__file__),
+        #        outfile + '.debug'), 'w', encoding='utf-8') as f0:
+        #    f0.write(html_string)
+
+        self.assertEqual(html_string, expected)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -12,7 +12,7 @@ Korean and English words, to display beautifully.
 Install with pip.
 
 ```
-$ pip install markdown_cjk_spacing
+$ pip install markdown-cjk-spacing
 ```
 
 ### Usage
@@ -39,6 +39,19 @@ MARKDOWN = {
     },
     'output_format': 'html5',
 }
+```
+
+### Segment split conversion
+
+In Chinese / Japanese sentences, if you do a line feed, it will be a one-byte space, but you can delete this space.
+
+```.python
+import markdown
+
+md = markdown.Markdown(extensions=["markdown_cjk_spacing.cjk_spacing"],
+    extension_configs={'markdown_cjk_spacing.cjk_spacing':
+            {'segment_break': True}})
+md.convert("markdown text")
 ```
 
 [Python-Markdown]: https://github.com/Python-Markdown/markdown "Python-Markdown"

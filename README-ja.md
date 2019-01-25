@@ -15,7 +15,7 @@ Markdownドキュメント中の中国語/日本語/韓国語と英単語との�
 pipでインストールします。
 
 ```
-$ pip install markdown_cjk_spacing
+$ pip install markdown-cjk-spacing
 ```
 
 ### 利用方法
@@ -42,6 +42,20 @@ MARKDOWN = {
     },
     'output_format': 'html5',
 }
+```
+
+### セグメント分割変換
+
+中国語/日本語文中で改行を行うと半角空白になりますが、
+このスペースを削除することができます。
+
+```.python
+import markdown
+
+md = markdown.Markdown(extensions=["markdown_cjk_spacing.cjk_spacing"],
+    extension_configs={'markdown_cjk_spacing.cjk_spacing':
+            {'segment_break': True}})
+md.convert("markdown text")
 ```
 
 [Python-Markdown]: https://github.com/Python-Markdown/markdown "Python-Markdown"

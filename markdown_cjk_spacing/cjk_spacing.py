@@ -11,8 +11,8 @@ Korean and English words, to display beautifully.
 import markdown
 
 INSIDE_ELEMENTS = (
-    'p', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-    'li', 'a', 'th', 'td', 'dt', 'dd'
+    'p', 'div', 'span', 'em', 'i', 'strong', 'ins', 'del',
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'a', 'th', 'td', 'dt', 'dd'
 )
 SPACE = ' '
 RANGE_CJK = (
@@ -51,13 +51,23 @@ RANGE_SYMBOL = (
 class CjkSpaceExtension(markdown.Extension):
     """CJK Space Extension for Python-Markdown."""
 
+    def __init__(self, **kwargs):
+        self.config = {
+            'segment_break': [False, 'Segment Break Transformation Rules'],
+        }
+        super(CjkSpaceExtension, self).__init__(**kwargs)
+
     def extendMarkdown(self, md, md_globals=None):
         # Register instance with a priority.
         md.treeprocessors.register(
-            CjkSpaceTreeProcessor(md), 'cjk_spacing', 5)
+            CjkSpaceTreeProcessor(md, self.config), 'cjk_spacing', 5)
 
 class CjkSpaceTreeProcessor(markdown.treeprocessors.Treeprocessor):
     """CJK Space Extension Processor."""
+
+    def __init__(self, md, config):
+        super(CjkSpaceTreeProcessor, self).__init__(md)
+        self.segment_break = config['segment_break'][0]
 
     def run(self, root):
         def _check_range(char, c_range):
@@ -69,22 +79,22 @@ class CjkSpaceTreeProcessor(markdown.treeprocessors.Treeprocessor):
             return False
 
         def _auto_spacing(text):
-            prev = None
+            prev_cjk = prev_sym = prev2_cjk = prev_char = None
             result_text = ''
             for char in text:
                 curr_cjk = _check_range(char, RANGE_CJK)
                 curr_sym = _check_range(char, RANGE_SYMBOL)
-                if prev:
-                    prev_cjk, prev_sym = prev
-                    if curr_sym or prev_sym:
-                        result_text += char
-                    elif prev_cjk != curr_cjk:
-                        result_text += SPACE + char
-                    else:
-                        result_text += char
+                if (self.segment_break and \
+                        prev2_cjk and prev_char == '\n' and curr_cjk):
+                        result_text = result_text[:-1]
+                if curr_sym or prev_sym:
+                    result_text += char
+                elif prev_cjk is not None and prev_cjk != curr_cjk:
+                    result_text += SPACE + char
                 else:
-                    result_text = char
-                prev = (curr_cjk, curr_sym)
+                    result_text += char
+                (prev2_cjk, prev_cjk, prev_sym, prev_char) = \
+                        (prev_cjk, curr_cjk, curr_sym, char)
             return result_text
 
         for e in root.iter():

@@ -10,3 +10,4 @@ downloads/
 **/*~
 **/*.orig
 **/*.bak
+**/*.debug
