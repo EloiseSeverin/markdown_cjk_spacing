@@ -29,13 +29,24 @@ RANGE_CJK = (
     ('\U0002b820', '\U0002cea1'),   # CJK Unified Ideographs Extension E
     ('\U0002ceb0', '\U0002ebe0'),   # CJK Unified Ideographs Extension F
     ('\U0002f800', '\U0002fa1f'),   # CJK Compatibility Ideographs Supplement
-    ('\u2700', '\u27bf'),           # Dingbats
-    ('\U0001f650', '\U0001f67f'),   # Ornamental Dingbats
-    ('\U0001f600', '\U0001f64f'),   # Emoticons
+)
+RANGE_EMOJI = (
+    ('\u2300', '\u23ff'),           # Miscellaneous Technical
     ('\u2600', '\u26ff'),           # Miscellaneous Symbols
+    ('\u2700', '\u27bf'),           # Dingbats
+    ('\u2b00', '\u2bff'),           # Miscellaneous Symbols and Arrows
+    ('\U0001f000', '\U0001f02f'),   # Mahjong Tiles
+    ('\U0001f0a0', '\U0001f0ff'),   # Playing Cards
+    ('\U0001f100', '\U0001f1ff'),   # Enclosed Alphanumeric Supplement
+    ('\U0001f200', '\U0001f2ff'),   # Enclosed Ideographic Supplement
     ('\U0001f300', '\U0001f5ff'),   # Miscellaneous Symbols and Pictographs
-    ('\U0001f900', '\U0001f9ff'),   # Supplemental Symbols and Pictographs
+    ('\U0001f600', '\U0001f64f'),   # Emoticons
+    ('\U0001f650', '\U0001f67f'),   # Ornamental Dingbats
     ('\U0001f680', '\U0001f6ff'),   # Transport and Map Symbols
+    ('\U0001f780', '\U0001f7ff'),   # Geometric Shapes Extended
+    ('\U0001f900', '\U0001f9ff'),   # Supplemental Symbols and Pictographs
+    ('\u200d', '\u200d'),           # ZERO WIDTH JOINER
+    ('\ufe0e', '\ufe0f'),           # VARIATION SELECTOR-15/16
 )
 RANGE_SYMBOL = (
     ('\u0000', '\u002f'),           # space and ASCII symbols
@@ -47,6 +58,7 @@ RANGE_SYMBOL = (
     ('\u200d', '\u200d'),           # ZERO WIDTH JOINER
     ('\ufe0e', '\ufe0f'),           # VARIATION SELECTOR-15/16
 )
+
 
 class CjkSpaceExtension(markdown.Extension):
     """CJK Space Extension for Python-Markdown."""
@@ -61,6 +73,7 @@ class CjkSpaceExtension(markdown.Extension):
         # Register instance with a priority.
         md.treeprocessors.register(
             CjkSpaceTreeProcessor(md, self.config), 'cjk_spacing', 5)
+
 
 class CjkSpaceTreeProcessor(markdown.treeprocessors.Treeprocessor):
     """CJK Space Extension Processor."""
@@ -83,8 +96,8 @@ class CjkSpaceTreeProcessor(markdown.treeprocessors.Treeprocessor):
             result_text = ''
             for char in text:
                 curr_cjk = _check_range(char, RANGE_CJK)
-                curr_sym = _check_range(char, RANGE_SYMBOL)
-                if (self.segment_break and \
+                curr_sym = _check_range(char, RANGE_EMOJI + RANGE_SYMBOL)
+                if (self.segment_break and
                         prev2_cjk and prev_char == '\n' and curr_cjk):
                         result_text = result_text[:-1]
                 if curr_sym or prev_sym:
@@ -93,8 +106,8 @@ class CjkSpaceTreeProcessor(markdown.treeprocessors.Treeprocessor):
                     result_text += SPACE + char
                 else:
                     result_text += char
-                (prev2_cjk, prev_cjk, prev_sym, prev_char) = \
-                        (prev_cjk, curr_cjk, curr_sym, char)
+                (prev2_cjk, prev_cjk, prev_sym, prev_char) = (
+                        prev_cjk, curr_cjk, curr_sym, char)
             return result_text
 
         for e in root.iter():
