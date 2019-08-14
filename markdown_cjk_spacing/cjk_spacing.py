@@ -1,6 +1,5 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-# vi:ts=4 sw=4 sts=4 tw=78 et:
 # -----------------------------------------------------------------------------
 """
 CJK Spacing Extension for Python-Markdown
@@ -99,7 +98,7 @@ class CjkSpaceTreeProcessor(markdown.treeprocessors.Treeprocessor):
                 curr_sym = _check_range(char, RANGE_EMOJI + RANGE_SYMBOL)
                 if (self.segment_break and
                         prev2_cjk and prev_char == '\n' and curr_cjk):
-                        result_text = result_text[:-1]
+                    result_text = result_text[:-1]
                 if curr_sym or prev_sym:
                     result_text += char
                 elif prev_cjk is not None and prev_cjk != curr_cjk:
@@ -107,7 +106,7 @@ class CjkSpaceTreeProcessor(markdown.treeprocessors.Treeprocessor):
                 else:
                     result_text += char
                 (prev2_cjk, prev_cjk, prev_sym, prev_char) = (
-                        prev_cjk, curr_cjk, curr_sym, char)
+                    prev_cjk, curr_cjk, curr_sym, char)
             return result_text
 
         for e in root.iter():

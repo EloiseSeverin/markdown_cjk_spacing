@@ -23,7 +23,7 @@ charset = utf-16
 [*.md]
 trim_trailing_whitespace = false
 
-[*.{xml,html,css}]
+[*.{xml,html}]
 indent_size = 2
 
 [Makefile]
